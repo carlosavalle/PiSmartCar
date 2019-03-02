@@ -43,12 +43,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //Register sensor listener
 
-        SM.registerListener(this,mySensor,SensorManager.SENSOR_DELAY_UI);
+        SM.registerListener(this,mySensor,SensorManager.SENSOR_DELAY_NORMAL);
 
         //Assing TextView
         xText = (TextView)findViewById(R.id.xText);
         yText = (TextView)findViewById(R.id.yText);
-        zText = (TextView)findViewById(R.id.zText);
+       // zText = (TextView)findViewById(R.id.zText);
 
 // socket connection
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
@@ -61,9 +61,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        xText.setText("X: " +event.values[0]);
-       yText.setText("Y: " +event.values[1]);
-       zText.setText("Z: " +event.values[2]);
+     //   xText.setText("X: " +event.values[0]);
+     //  yText.setText("Y: " +event.values[1]);
+
+
+      // zText.setText("Z: " +event.values[2]);
 
 
        //if(event.values[1]  <= 2 || event.values[1] < -1  ){
@@ -71,7 +73,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                _x=(int) Math.ceil(event.values[0]);
                _y=(int) Math.ceil(event.values[1]);
             try {
-                client = new Socket("192.168.159.101", 888);
+                //client = new Socket("192.168.159.101", 888);
+                client = new Socket("192.168.111.10", 888);
                 PrintWriter printwrite = new PrintWriter(client.getOutputStream());
 
 
