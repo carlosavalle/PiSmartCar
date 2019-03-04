@@ -58,41 +58,64 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     int _x = 0;
     int _y = 0;
+    int _middle=0;
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-     //   xText.setText("X: " +event.values[0]);
-     //  yText.setText("Y: " +event.values[1]);
+        int x = ((int) Math.ceil(event.values[0]));
+        int y = ((int) Math.ceil(event.values[1]));
+        xText.setText("X: " +x);
+        yText.setText("Y: " +y);
 
 
       // zText.setText("Z: " +event.values[2]);
 
 
        //if(event.values[1]  <= 2 || event.values[1] < -1  ){
-           if(((int) Math.ceil(event.values[0])) != _x || ((int) Math.ceil(event.values[1])) != _y){
-               _x=(int) Math.ceil(event.values[0]);
-               _y=(int) Math.ceil(event.values[1]);
-            try {
-                //client = new Socket("192.168.159.101", 888);
-                client = new Socket("192.168.111.10", 888);
-                PrintWriter printwrite = new PrintWriter(client.getOutputStream());
+       //   if(x != _x || y != _y){
+        if(x != _x  || y != _y  ) {
+            if (y == 2 || y == -2 )  {
+                _x = x;
+                _y = y;
+                _middle = y;
+                SendToSocket(x,y);
+            }
+            if (_middle != 1 && _middle != -1 && _middle != 0 ){
+                if ( y <= 1 && y >=-1) {
+                    _x = x;
+                    _y = y;
+                    _middle = y;
+                    SendToSocket(x, y);
+                }
+            }
 
-
-                printwrite.write(+(int) Math.ceil(event.values[0]) + " " + (int) Math.ceil(event.values[1]));
-
-                printwrite.flush();
-                //printwrite.close();
-                //client.close();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            //Speed
+            if (x != _x  ){
+                _x = x;
+                SendToSocket(x, y);
             }
         }
 
 
     }
+    private void SendToSocket(int x, int y){
+        try {
+            //client = new Socket("192.168.159.101", 888);
+            client = new Socket("192.168.111.134", 888);
+            PrintWriter printwrite = new PrintWriter(client.getOutputStream());
 
+
+            printwrite.write(+x + " " + y);
+
+            printwrite.flush();
+            //printwrite.close();
+            //client.close();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 // not in use
