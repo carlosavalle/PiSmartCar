@@ -1,5 +1,6 @@
 package com.example.pismartcar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import android.hardware.SensorManager;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.webkit.ConsoleMessage;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -29,11 +31,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager SM;
     private Socket client;
     private PrintWriter printwrite;
+    private Button _OpenCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Button Camera
+        _OpenCamera = (Button) findViewById(R.id.btnCamera);
+        _OpenCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenCamera();
+            }
+        });
+
         // create  our sensor manager
         SM=(SensorManager)getSystemService(SENSOR_SERVICE);
 
@@ -85,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     _x = x;
                     _y = y;
                     _middle = y;
+
                     SendToSocket(x, y);
                 }
             }
@@ -95,6 +110,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 SendToSocket(x, y);
             }
         }
+
+
+    }
+    //open  Camera using button
+    public void OpenCamera(){
+        Intent intent = new Intent(this,Camara.class);
+        startActivity(intent);
 
 
     }
