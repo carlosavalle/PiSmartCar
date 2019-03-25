@@ -14,6 +14,6 @@ public class Camara extends AppCompatActivity {
         //load the camera
 
         WebView PiCameraWeb = (WebView) findViewById(R.id.WV_Camera);
-        PiCameraWeb.loadUrl("http://192.168.111.10:5000/video_feed");
+        PiCameraWeb.loadUrl("http://192.168.156.47:5000/video_feed");
     }
 }

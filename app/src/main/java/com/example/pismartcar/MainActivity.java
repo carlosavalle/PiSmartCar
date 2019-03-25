@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 _x = x;
                 _y = y;
                 _middle = y;
-                SendToSocket(x,y);
+               SendToSocket(x,y);
             }
             if (_middle != 1 && _middle != -1 && _middle != 0 ){
                 if ( y <= 1 && y >=-1) {
@@ -122,14 +122,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
     private void SendToSocket(int x, int y){
         try {
-            //client = new Socket("192.168.159.101", 888);
-            client = new Socket("192.168.111.134", 888);
+            //client = new Socket("192.168.159.101", 888)
+            client = new Socket("192.168.156.47", 888);
             PrintWriter printwrite = new PrintWriter(client.getOutputStream());
-
-
             printwrite.write(+x + " " + y);
-
             printwrite.flush();
+
+
             //printwrite.close();
             //client.close();
         } catch (UnknownHostException e) {
