@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_visibility"
         android:title="Camera"
         app:showAsAction="ifRoom"/>
+    <item android:id = "@+id/mntakepic"
+        android:icon="@drawable/ic_icon_camera"
+        android:title="TakePic"
+        app:showAsAction="ifRoom"/>
 
 
 

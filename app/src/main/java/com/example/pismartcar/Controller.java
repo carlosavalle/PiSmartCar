@@ -1,21 +1,30 @@
 package com.example.pismartcar;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Picture;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.hardware.SensorEventListener;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -29,6 +38,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
 
     Boolean isPressedCamera = false;
     Boolean isPressedZonar = false;
+    WebView _PiCameraWeb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +105,49 @@ public class Controller extends AppCompatActivity implements SensorEventListener
                     Toast.makeText(this, "Avoiding Objects Off", Toast.LENGTH_SHORT).show();
                     return true;
                 }
+            case R.id.mntakepic:
+
+
+                // do your stuff here
+                _PiCameraWeb.measure(View.MeasureSpec.makeMeasureSpec(
+                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                _PiCameraWeb.layout(0, 0, _PiCameraWeb.getMeasuredWidth(),
+                        _PiCameraWeb.getMeasuredHeight());
+                _PiCameraWeb.setDrawingCacheEnabled(true);
+                _PiCameraWeb.buildDrawingCache();
+                Bitmap bm = Bitmap.createBitmap(_PiCameraWeb.getMeasuredWidth(),
+                        _PiCameraWeb.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+                Canvas bigcanvas = new Canvas(bm);
+                Paint paint = new Paint();
+                int iHeight = bm.getHeight();
+                bigcanvas.drawBitmap(bm, 0, iHeight, paint);
+                _PiCameraWeb.draw(bigcanvas);
+                System.out.println("1111111111111111111111="
+                        + bigcanvas.getWidth());
+                System.out.println("22222222222222222222222="
+                        + bigcanvas.getHeight());
+
+                if (bm != null) {
+                    try {
+                        String path = Environment.getExternalStorageDirectory()
+                                .toString();
+                        OutputStream fOut = null;
+                        File file = new File(path, "/aaaa.png");
+                        fOut = new FileOutputStream(file);
+
+                        bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
+                        fOut.flush();
+                        fOut.close();
+                        bm.recycle();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                return true;
 
         }
         return super.onOptionsItemSelected(item);
@@ -103,7 +156,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
     int _x = 0;
     int _y = 0;
     int _middle=0;
-    WebView _PiCameraWeb;
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         int x = ((int) Math.ceil(event.values[0]));
@@ -164,7 +217,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
     private void SendToSocket(int x, int y){
         try {
             //client = new Socket("192.168.159.101", 888)
-            client = new Socket("192.168.156.47", 888);
+            client = new Socket(" 192.168.156.47", 888);
             PrintWriter printwrite = new PrintWriter(client.getOutputStream());
             printwrite.write(+x + " " + y);
             printwrite.flush();
