@@ -27,14 +27,16 @@ public class Controller extends AppCompatActivity implements SensorEventListener
     private Socket client;
     private PrintWriter printwrite;
 
-
+    Boolean isPressedCamera = false;
+    Boolean isPressedZonar = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controller);
-
-
-
+        //camera openinig
+        isPressedCamera=true;
+        isPressedZonar = true;
+        OpenCamera();
         // create  our sensor manager
         SM=(SensorManager)getSystemService(SENSOR_SERVICE);
 
@@ -62,21 +64,38 @@ public class Controller extends AppCompatActivity implements SensorEventListener
         inflater.inflate(R.menu.controller_menu,menu);
         return true;
     }
-    Boolean isPressedCamera = false;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.mncamera:
                 if (isPressedCamera == false) {
                     OpenCamera();
+
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_visibility));
                     isPressedCamera=true;
                     Toast.makeText(this, "Opening Camera", Toast.LENGTH_SHORT).show();
                     return true;
                 }else{
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_visibility_off));
                     isPressedCamera=false;
                     CloseCamera();
                     Toast.makeText(this, "Closing Camera", Toast.LENGTH_SHORT).show();
+                    return true;
                 }
+            case R.id.mnsonar:
+                if (isPressedZonar == false) {
+                    isPressedZonar = true;
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_zonda_on));
+                    Toast.makeText(this, "Avoiding Objects", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else{
+                    isPressedZonar = false;
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_zonda_off));
+                    Toast.makeText(this, "Avoiding Objects Off", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -127,14 +146,18 @@ public class Controller extends AppCompatActivity implements SensorEventListener
     //open  Camera using button
     public void OpenCamera(){
         //load the camera
+
         _PiCameraWeb = (WebView) findViewById(R.id.WV_Camera);
         _PiCameraWeb.loadUrl("http://192.168.156.47:5000/video_feed");
+        _PiCameraWeb.setVisibility(WebView.VISIBLE);
 
 
     }
     public void CloseCamera(){
         //close the camera
         _PiCameraWeb.stopLoading();
+        _PiCameraWeb.setVisibility(WebView.INVISIBLE);
+
 
 
     }
