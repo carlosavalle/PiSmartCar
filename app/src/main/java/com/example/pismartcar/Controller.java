@@ -35,7 +35,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
         setContentView(R.layout.activity_controller);
         //camera openinig
         isPressedCamera=true;
-        isPressedZonar = true;
+        isPressedZonar = false;
         OpenCamera();
         // create  our sensor manager
         SM=(SensorManager)getSystemService(SENSOR_SERVICE);
