@@ -23,16 +23,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnCamera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="308dp"
-            android:layout_marginTop="36dp"
-            android:text="Camera"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
             android:id="@+id/btn_controller"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,5 +31,13 @@
             android:background="@drawable/volante"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Follow"
+            tools:layout_editor_absoluteX="425dp"
+            tools:layout_editor_absoluteY="151dp" />
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

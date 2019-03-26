@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private PrintWriter printwrite;
     private Button _OpenCamera;
     private Button _OpenController;
-
+    private Button _OpenFollow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Button Camera
-        _OpenCamera = (Button) findViewById(R.id.btnCamera);
-        _OpenCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenCamera();
-            }
-        });
+       // _OpenCamera = (Button) findViewById(R.id.btnCamera);
+        //_OpenCamera.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+          //  public void onClick(View v) {
+            //    OpenCamera();
+           // }
+        //});
 
         //Button Controller
         _OpenController = (Button) findViewById(R.id.btn_controller);
@@ -55,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 OpenController();
+            }
+        });
+
+        //Button Follow
+        _OpenFollow = (Button) findViewById(R.id.btn_follow);
+        _OpenFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenFollow();
             }
         });
 
@@ -76,7 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    //open  Follow using button
+    public void OpenFollow(){
+        Intent intent = new Intent(this,Follow.class);
+        startActivity(intent);
 
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

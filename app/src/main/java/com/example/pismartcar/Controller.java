@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
     Boolean isPressedCamera = false;
     Boolean isPressedZonar = false;
     WebView _PiCameraWeb;
+    Boolean isPressedScreen = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,10 +128,6 @@ public class Controller extends AppCompatActivity implements SensorEventListener
                 int iHeight = bm.getHeight();
                 bigcanvas.drawBitmap(bm, 0, iHeight, paint);
                 _PiCameraWeb.draw(bigcanvas);
-           //     System.out.println("1111111111111111111111="
-               //         + bigcanvas.getWidth());
-             //   System.out.println("22222222222222222222222="
-                 //       + bigcanvas.getHeight());
 
                 if (bm != null) {
                     try {
@@ -219,26 +217,53 @@ public class Controller extends AppCompatActivity implements SensorEventListener
 
 
     }
-    private void SendToSocket(int x, int y){
-        try {
-            //client = new Socket("192.168.159.101", 888)
-            client = new Socket(" 192.168.156.47", 888);
-            PrintWriter printwrite = new PrintWriter(client.getOutputStream());
-            printwrite.write(+x + " " + y);
-            printwrite.flush();
+    private void SendToSocket(int x, int y) {
+        if (isPressedScreen == true) {
+            try {
+                //client = new Socket("192.168.159.101", 888)
+                client = new Socket("192.168.156.47", 888);
+                PrintWriter printwrite = new PrintWriter(client.getOutputStream());
+                printwrite.write(+x + " " + y);
+                printwrite.flush();
 
 
-            //printwrite.close();
-            //client.close();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+                //printwrite.close();
+                //client.close();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 // not in use
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        int X = (int) event.getX();
+        int Y = (int) event.getY();
+        int eventaction = event.getAction();
+
+        switch (eventaction) {
+
+            case MotionEvent.ACTION_DOWN:
+                isPressedScreen = true;
+                break;
+
+//            case MotionEvent.ACTION_MOVE:
+//                Toast.makeText(this, "MOVE "+"X: "+X+" Y: "+Y, Toast.LENGTH_SHORT).show();
+//                break;
+
+            case MotionEvent.ACTION_UP:
+                SendToSocket(5,-1);
+                isPressedScreen = false;
+
+                break;
+        }
+        return true;
     }
 
 
