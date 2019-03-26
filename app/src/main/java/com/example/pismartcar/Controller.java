@@ -28,6 +28,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Controller extends AppCompatActivity implements SensorEventListener {
     private TextView xText, yText,zText;
@@ -124,17 +126,20 @@ public class Controller extends AppCompatActivity implements SensorEventListener
                 int iHeight = bm.getHeight();
                 bigcanvas.drawBitmap(bm, 0, iHeight, paint);
                 _PiCameraWeb.draw(bigcanvas);
-                System.out.println("1111111111111111111111="
-                        + bigcanvas.getWidth());
-                System.out.println("22222222222222222222222="
-                        + bigcanvas.getHeight());
+           //     System.out.println("1111111111111111111111="
+               //         + bigcanvas.getWidth());
+             //   System.out.println("22222222222222222222222="
+                 //       + bigcanvas.getHeight());
 
                 if (bm != null) {
                     try {
-                        String path = Environment.getExternalStorageDirectory()
-                                .toString();
+                        String path = "/storage/emulated/0/DCIM/Camera";
+                        // Environment.getExternalStorageDirectory()
+                               // .toString();
                         OutputStream fOut = null;
-                        File file = new File(path, "/aaaa.png");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+                        String timeStamp = dateFormat.format(new Date());
+                        File file = new File(path, "IMG_" + timeStamp + ".jpg");
                         fOut = new FileOutputStream(file);
 
                         bm.compress(Bitmap.CompressFormat.PNG, 50, fOut);
