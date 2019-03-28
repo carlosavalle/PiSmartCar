@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Controller extends AppCompatActivity implements SensorEventListener {
+    private String _IP = "192.168.156.47";
     private TextView xText, yText,zText;
     private Sensor mySensor;
     private SensorManager SM;
@@ -204,7 +205,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
         //load the camera
 
         _PiCameraWeb = (WebView) findViewById(R.id.WV_Camera);
-        _PiCameraWeb.loadUrl("http://192.168.156.47:5000/video_feed");
+        _PiCameraWeb.loadUrl("http://"+_IP+":5000/video_feed");
         _PiCameraWeb.setVisibility(WebView.VISIBLE);
 
 
@@ -220,8 +221,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
     private void SendToSocket(int x, int y) {
         if (isPressedScreen == true) {
             try {
-                //client = new Socket("192.168.159.101", 888)
-                client = new Socket("192.168.156.47", 888);
+                client = new Socket(_IP, 888);
                 PrintWriter printwrite = new PrintWriter(client.getOutputStream());
                 printwrite.write(+x + " " + y);
                 printwrite.flush();

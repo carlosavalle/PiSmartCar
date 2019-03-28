@@ -70,7 +70,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    //open  Follow using button
+    public void OpenFollow(){
+        Intent intent = new Intent(this,Follow.class);
+        startActivity(intent);
 
+
+    }
     //open  Camera using button
     public void OpenController(){
         Intent intent = new Intent(this,Controller.class);
@@ -85,13 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    //open  Follow using button
-    public void OpenFollow(){
-        Intent intent = new Intent(this,Follow.class);
-        startActivity(intent);
 
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
