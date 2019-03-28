@@ -1,6 +1,7 @@
 package com.example.pismartcar;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -48,6 +49,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controller);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         //camera openinig
         isPressedCamera=true;
         isPressedZonar = false;
@@ -265,6 +267,10 @@ public class Controller extends AppCompatActivity implements SensorEventListener
         }
         return true;
     }
-
+    @Override
+    public void onBackPressed() {
+        _PiCameraWeb.destroy();
+        finish();
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.example.pismartcar;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class Follow extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         //Button Follow
         _OpenFollow = (Button) findViewById(R.id.btn_follow);
         _OpenFollow.setOnClickListener(new View.OnClickListener() {
@@ -75,5 +77,10 @@ public class Follow extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+    }
+    @Override
+    public void onBackPressed() {
+        _PiCameraWeb.destroy();
+        finish();
     }
 }

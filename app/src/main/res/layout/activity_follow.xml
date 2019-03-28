@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true"
     android:screenOrientation="sensorLandscape"
-    tools:context=".MainActivity">
+    tools:context=".Follow">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
