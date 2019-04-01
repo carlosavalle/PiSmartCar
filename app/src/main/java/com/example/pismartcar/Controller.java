@@ -34,7 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Controller extends AppCompatActivity implements SensorEventListener {
-    private String _IP = "192.168.156.47";
+    private String _IP = "192.168.153.142";
     private TextView xText, yText,zText;
     private Sensor mySensor;
     private SensorManager SM;
@@ -115,7 +115,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
             case R.id.mntakepic:
 
 
-                // do your stuff here
+
                 _PiCameraWeb.measure(View.MeasureSpec.makeMeasureSpec(
                         View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
                         View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
@@ -181,7 +181,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
                 _x = x;
                 _y = y;
                 _middle = y;
-                SendToSocket(x,y);
+                SendToSocket(x,y,isPressedZonar);
             }
             if (_middle != 1 && _middle != -1 && _middle != 0 ){
                 if ( y <= 1 && y >=-1) {
@@ -189,15 +189,20 @@ public class Controller extends AppCompatActivity implements SensorEventListener
                     _y = y;
                     _middle = y;
 
-                    SendToSocket(x, y);
+                    SendToSocket(x, y,isPressedZonar);
                 }
             }
-
-            //Speed
-            if (x != _x  ){
-                _x = x;
-                SendToSocket(x, y);
+            if (isPressedZonar) {
+                //Speed
+                SendToSocket(x, y, isPressedZonar);
+            }else{
+                    if (x != _x) {
+                        _x = x;
+                        SendToSocket(x, y, isPressedZonar);
+                    }
             }
+
+
         }
 
 
@@ -220,15 +225,18 @@ public class Controller extends AppCompatActivity implements SensorEventListener
 
 
     }
-    private void SendToSocket(int x, int y) {
+    private void SendToSocket(int x, int y, boolean zonar) {
         if (isPressedScreen == true) {
             try {
                 client = new Socket(_IP, 888);
                 PrintWriter printwrite = new PrintWriter(client.getOutputStream());
-                printwrite.write(+x + " " + y);
+                if (zonar == true) {
+                    printwrite.write(+x+" "+y+"   "+1);
+
+                }else{
+                    printwrite.write(+x+" "+y+"   "+0);
+                }
                 printwrite.flush();
-
-
                 //printwrite.close();
                 //client.close();
             } catch (UnknownHostException e) {
@@ -260,7 +268,7 @@ public class Controller extends AppCompatActivity implements SensorEventListener
 //                break;
 
             case MotionEvent.ACTION_UP:
-                SendToSocket(5,-1);
+                SendToSocket(5,-1,false);
                 isPressedScreen = false;
 
                 break;

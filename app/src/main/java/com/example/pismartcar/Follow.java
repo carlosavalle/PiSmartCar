@@ -15,9 +15,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Follow extends AppCompatActivity {
-    private String _IP = "192.168.156.47";
+    private String _IP = "192.168.153.142";
     private Socket client;
-    Button _OpenFollow;
+  //  Button _OpenFollow;
     Boolean isPressedFollow = false;
     private PrintWriter printwrite;
     WebView _PiCameraWeb;
@@ -26,14 +26,14 @@ public class Follow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        //Button Follow
-        _OpenFollow = (Button) findViewById(R.id.btn_follow);
-        _OpenFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenFollow();
-            }
-        });
+//        //Button Follow
+//        _OpenFollow = (Button) findViewById(R.id.btn_follow);
+//        _OpenFollow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                OpenFollow();
+//            }
+//        });
 
         // socket connection
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
